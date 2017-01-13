@@ -4,12 +4,14 @@ from modexp import natural_modexp, natural_mod, congruent
 
 """Pure Python Toy RSA implementation
 
-Warning: no padding, no coprimality testing, no checking public exponent for bad values
+Warning: no padding, no checking public exponent for bad values
 beyond guaranteeing coprimality of e and phi
 If e does not have a multiplicative inverse mod phi, an exception is generated
 
-Note that even if e does have a multiplicative inverse mod phi, the encryption will be
-weak if p and q are not coprime and/or e is small
+References:
+
+RSA -
+https://en.wikipedia.org/wiki/RSA_(cryptosystem)
 
 """
 
@@ -20,8 +22,8 @@ class ToyRSA():
 		if q is None:
 			q = 157049038824611
 
+		phi = self._compute_phi(p, q)
 		self._n = p * q
-		phi = (p - 1) * (q - 1)	
 
 		if e is None:
 			e = 65537
@@ -29,11 +31,36 @@ class ToyRSA():
 
 		egcd = ExtendedGCD(self._e, phi)
 
-		assert egcd.gcd == 1
+		if egcd.gcd != 1:
+			raise ValueError('Bad e, e and phi not coprime (gcd is {})'.format(egcd.gcd))
 
 		self._d = natural_mod(egcd.multiplicative_inverse, phi)
 
 		assert congruent(self._d * self._e, 1, phi)
+
+	def _compute_phi(self, p, q):
+		egcd = ExtendedGCD(p, q)
+		if egcd.gcd != 1:
+			raise ValueError('Bad p/q, p and q not coprime (gcd is {})'.format(egcd.gcd))
+
+		s, t = p - 1, q - 1
+
+		small_primes = ( 2, 3, 5, 7, 11, 13 )
+
+		_s, _t = s, t
+
+		for sp in small_primes:
+			while not _s % sp:
+				_s //= sp
+			while not _t % sp:
+				_t //= sp
+
+		egcd = ExtendedGCD(_s, _t)
+
+		if egcd.gcd != 1:
+			raise ValueError('Bad p/q, (p-1) and (q-1) share large factors (gcd is {})'.format(egcd.gcd))
+
+		return s * t
 
 	def _reduce(self, a):
 		return natural_mod(a, self.modulus)
@@ -63,7 +90,7 @@ class ToyRSA():
 if __name__ == '__main__':
 	import sys
 
-	trsa = ToyRSA()
+	trsa = ToyRSA(p=4721, q=419, e=3)
 
 	try:
 		for arg in sys.argv[1:]:
