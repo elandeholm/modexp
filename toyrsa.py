@@ -47,18 +47,14 @@ class ToyRSA():
 
 		small_primes = ( 2, 3, 5, 7, 11, 13 )
 
-		_s, _t = s, t
+		g = ExtendedGCD(s, t).gcd
 
 		for sp in small_primes:
-			while not _s % sp:
-				_s //= sp
-			while not _t % sp:
-				_t //= sp
+			while not g % sp:
+				g //= sp
 
-		egcd = ExtendedGCD(_s, _t)
-
-		if egcd.gcd != 1:
-			raise ValueError('Bad p/q, (p-1) and (q-1) share large factors (gcd is {})'.format(egcd.gcd))
+		if g > 1:
+			raise ValueError('Bad p/q, (p-1) and (q-1) share large factors (g is {})'.format(g))
 
 		return s * t
 
@@ -90,7 +86,7 @@ class ToyRSA():
 if __name__ == '__main__':
 	import sys
 
-	trsa = ToyRSA(p=4721, q=419, e=3)
+	trsa = ToyRSA(p=123456719, q=101820033136434259, e=65537)
 
 	try:
 		for arg in sys.argv[1:]:
