@@ -179,9 +179,9 @@ if __name__ == '__main__':
 
 	except IndexError:
 		print('usage:')
-		print('  (python) natural_modexp b e m')
+		print('  python modexp.py b e m')
 		print('    compute b^e mod m')
-		print('  (python) natural_modexp test n')
+		print('  python modexp.py test n')
 		print('    tests implementation n times')
 	except ValueError:
 		print('integer expected')
