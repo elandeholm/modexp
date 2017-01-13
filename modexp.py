@@ -178,7 +178,6 @@ if __name__ == '__main__':
 			print('natural_modexp({}, {}, {}) = {}'.format(b, e, m, c))
 
 	except IndexError:
-		raise
 		print('usage:')
 		print('  (python) natural_modexp b e m')
 		print('    compute b^e mod m')
