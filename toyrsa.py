@@ -14,6 +14,7 @@ RSA -
 https://en.wikipedia.org/wiki/RSA_(cryptosystem)
 
 """
+__license__ = "poetic"
 
 class ToyRSA():
 	def __init__(self, p=None, q=None, e=None):
