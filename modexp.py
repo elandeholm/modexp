@@ -98,18 +98,16 @@ def natural_modexp(b, e, m):
 	return natural_pow(b, e, m, sign)
 
 def test_natural_modexp(n):
-	from random import choice
+	from random import getrandbits
 
-	big_number = 1000 * 1000 * 1000 * 10000
-	big_range = range(1, big_number)
-
+	bits = 1024
 	n_coprime = 0
 
 	for i in range(n):
 		while True:
-			b = choice(big_range)
-			e = choice(big_range)
-			m = choice(big_range)
+			b = getrandbits(bits)
+			e = getrandbits(bits)
+			m = getrandbits(bits)
 
 			# the base probability of b and m being coprime approaches 6/pi^2 (~61%)
 
