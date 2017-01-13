@@ -1,28 +1,16 @@
 # -*- coding: utf-8 -*-
 
-"""Extended GCD
+"""Modular exponentiation
 
-This library provides a pure python implementation of the extended GCD algorithm
-The greatest common divisor of the two ints a and b is computed.
-Additionally, it gives the Bézout coefficients and the canonical form of
-the quotient a/b (no extra charge)
+Provides a pure python implementation of modular exponentiation
+modexp(b, e, m) computes b^e mod m using python's pow(b, e, m)
+by range reducing b, e and m to natural numbers
 
-When the GCD is unary (a and b coprime), the zeroth Bézout coefficient
-gives the multiplicative inverse of a mod b
+For negative exponents, modexp uses the identity b^-e == (b^-1)^e mod m
+The multiplicative inverse b^-1 mod m is computed using the Extended GCD
 
-References:
-
-Greatest common divisor -
-https://en.wikipedia.org/wiki/Greatest_common_divisor
-
-Euclid's algorithm
-https://en.wikipedia.org/wiki/Euclidean_algorithm
-
-Bézouts identity -
-https://en.wikipedia.org/wiki/B%C3%A9zout's_identity
-
-Modular multiplicative inverse -
-https://en.wikipedia.org/wiki/Modular_multiplicative_inverse
+modexp always returns natural numbers. negative numbers are converted
+to the additive inverses of their magnitudes using the identity -a mod m = m-a mod m
 
 """
 __license__ = "poetic"
