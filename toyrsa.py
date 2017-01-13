@@ -1,4 +1,3 @@
-from random import randint
 from egcd import ExtendedGCD
 from modexp import natural_modexp, natural_mod, congruent
 
